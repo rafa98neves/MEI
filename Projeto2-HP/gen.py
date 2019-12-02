@@ -41,14 +41,15 @@ def sort():
 # Initialize files
 f = open("all_results.in", "w")
 f.write("ALGORITHM LLS ERRORS PROBABILITY SIZE\n")
+f.close()
+
 f = open("p_results.in", "w")
 f.write("ALGORITHM LLS ERRORS PROBABILITY SIZE\n")
 f.close()
 
-#1. State the hypothesis or claim to be tested 
-#2. Select the criteria for a decision 
-#3. Compute the test statistic 
-#4. Make a decision
+f = open("n_results.in", "w")
+f.write("ALGORITHM LLS ERRORS PROBABILITY SIZE\n")
+f.close()
 
 print("Simulating all algorithms "+str(repetitions)+" times...")
 for e in range(repetitions):
@@ -69,23 +70,20 @@ for i in range(5):
         writefile()
         sort()
         write_stats("p_")
-    p = p/0.5
+    p = p/1.8
 
 
-# # Question 3 - Simulate changes on array size eps=1/100, n = [100:max_n]
-# eps = 1.0/100
-# n = 100
-# max_n = 1000
-# by = 10
-# print("Simulating changes on array size eps=" + str(eps) + ", n = [" + str(n) + " : " + str(max_n) + "]")
-# while n <= max_n:
-#     writefile()
-#     sort()
-#     if n == max_n: # end of test
-#         write_stats(True)
-#     else:
-#         write_stats(False)
-#     n = n+by
+eps = 1.0/100
+n = 100
 
-# print("Done!\nData is now available on your folder")
+print("Simulating changes on array size "+str(repetitions)+" times...")
+for i in range(5):
+    writefile()
+    sort()
+    print("n= " +str(n)+ " ...")
+    for e in range(repetitions):
+        write_stats("n_")
+    n = n*2
+
+print("Done!\nData is now available on your folder")
 
