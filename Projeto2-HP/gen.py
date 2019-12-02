@@ -5,25 +5,16 @@ data = ['quick', 'bubble', 'insertion', 'merge']
 n = 100
 maxr = n
 eps = 1.0/n
+repetitions = 100
 
 
-def write_stats(ended):
+def write_stats(name):
     for d in data:
         f = open(d+".out", "r")
         lines = f.readlines()
         f.close()
-        f = open(d+"_results.in", "a")
-        if ended:
-            f.write(str(lines[len(lines) - 2][:-1]) + "\n")
-        else:
-            f.write(str(lines[len(lines) - 2][:-1]) + " ")
-            f.close()
-
-        f = open(d+"_errors.in", "a")
-        if ended:
-            f.write(str(lines[len(lines) - 1][:-1]) + "\n")
-        else:
-            f.write(str(lines[len(lines) - 1][:-1]) + " ")
+        f = open((str(name)+"results.in"), "a")
+        f.write(d + " " + str(lines[len(lines) - 2][:-1]) + " " + str(lines[len(lines) - 1][:-1]) + " " + str(eps) + " " + str(n) + "\n")
         f.close()
 
 
@@ -48,54 +39,53 @@ def sort():
     os.system(run_merge)
 
 # Initialize files
-for d in data:
-    f = open(d+"_results.in", "w")
-    f.close()
-    f = open(d+"_errors.in", "w")
-    f.close()
+f = open("all_results.in", "w")
+f.write("ALGORITHM LLS ERRORS PROBABILITY SIZE\n")
+f = open("p_results.in", "w")
+f.write("ALGORITHM LLS ERRORS PROBABILITY SIZE\n")
+f.close()
 
+#1. State the hypothesis or claim to be tested 
+#2. Select the criteria for a decision 
+#3. Compute the test statistic 
+#4. Make a decision
 
-# Question 1 - Simulate simple data with eps = 1/n, n = 100
-print("Simulating simple data with eps=" + str(eps) + ", n=" + str(n) + " ...")
-for e in range(500):
+print("Simulating all algorithms "+str(repetitions)+" times...")
+for e in range(repetitions):
     writefile()
     sort()
-    if e == 499: #end of test
-        write_stats(True)
-    else:
-        write_stats(False)
+    write_stats("all_")
+    
 
-
-# Question 2 - Simulate changes of probability of memory faults eps=[1/n:p/n], n=100
-p = 15.0
+repetitions = 50
+p = 30.0
 n = 100
-by = 0.1
-print("Simulating changes of probability of memory faults eps=[" + str(eps) + " : " + str(p/n) + "], n=" + str(n) + " ...")
-while p >= 1:
+
+print("Simulating changes of probability of memory faults "+str(repetitions)+" times...")
+for i in range(5):
     eps = p/n
-    writefile()
-    sort()
-    if p < 1.1: #end of test
-        write_stats(True)
-    else:
-        write_stats(False)
-    p = p-by
+    print("probability= " +str(p)+"/100 ... ")
+    for e in range(repetitions):
+        writefile()
+        sort()
+        write_stats("p_")
+    p = p/0.5
 
 
-# Question 3 - Simulate changes on array size eps=1/100, n = [100:max_n]
-eps = 1.0/100
-n = 100
-max_n = 1000
-by = 10
-print("Simulating changes on array size eps=" + str(eps) + ", n = [" + str(n) + " : " + str(max_n) + "]")
-while n <= max_n:
-    writefile()
-    sort()
-    if n == max_n: # end of test
-        write_stats(True)
-    else:
-        write_stats(False)
-    n = n+by
+# # Question 3 - Simulate changes on array size eps=1/100, n = [100:max_n]
+# eps = 1.0/100
+# n = 100
+# max_n = 1000
+# by = 10
+# print("Simulating changes on array size eps=" + str(eps) + ", n = [" + str(n) + " : " + str(max_n) + "]")
+# while n <= max_n:
+#     writefile()
+#     sort()
+#     if n == max_n: # end of test
+#         write_stats(True)
+#     else:
+#         write_stats(False)
+#     n = n+by
 
-print("Done!\nData is now available on your folder")
+# print("Done!\nData is now available on your folder")
 
