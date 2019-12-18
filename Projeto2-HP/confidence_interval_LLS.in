@@ -1,0 +1,5 @@
+ALGORITHM UPPER LOWER MEAN
+bubble 72.69 66.31 69.5
+insertion 28.02 24.84 26.43
+merge 58.23 51.09 54.66
+quick 54.17 47.21 50.69

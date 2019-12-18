@@ -51,39 +51,23 @@ f = open("n_results.in", "w")
 f.write("ALGORITHM LLS ERRORS PROBABILITY SIZE\n")
 f.close()
 
-print("Simulating all algorithms "+str(repetitions)+" times...")
-for e in range(repetitions):
-    writefile()
-    sort()
-    write_stats("all_")
-    
-
 repetitions = 50
-p = 30.0
+p = 2.0
 n = 100
 
 print("Simulating changes of probability of memory faults "+str(repetitions)+" times...")
-for i in range(5):
-    eps = p/n
-    print("probability= " +str(p)+"/100 ... ")
-    for e in range(repetitions):
-        writefile()
-        sort()
-        write_stats("p_")
-    p = p/1.8
+for i in range(4):
+    print("probability= " +str(p)+"/" + str(n) + "... ")
+    for i in range(4):
+	eps = p/100
+   	for e in range(repetitions):
+    	    writefile()
+            sort()
+            write_stats("all_")
+	n=n*2
+    n=100
+    p = p/2.0
 
-
-eps = 1.0/100
-n = 100
-
-print("Simulating changes on array size "+str(repetitions)+" times...")
-for i in range(5):
-    writefile()
-    sort()
-    print("n= " +str(n)+ " ...")
-    for e in range(repetitions):
-        write_stats("n_")
-    n = n*2
 
 print("Done!\nData is now available on your folder")
 
